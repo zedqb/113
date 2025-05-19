@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    String url = "jdbc:postgresql://localhost:5432/mydatabase";
-    String user = "myuser";
-    String password = "mypassword";
-    Logger logger = LoggerFactory.getLogger(UserDaoJDBCImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoJDBCImpl.class);
 
     public UserDaoJDBCImpl() {
     }
@@ -30,7 +27,7 @@ public class UserDaoJDBCImpl implements UserDao {
             Statement stmt = conn.createStatement();
 
             stmt.executeUpdate(createTableSQL);
-            System.out.println("Таблица успешно создана.");
+            logger.info("Таблица успешно создана.");
 
         } catch (SQLException e) {
             logger.error("Ошибка при создании таблицы", e);
@@ -45,7 +42,7 @@ public class UserDaoJDBCImpl implements UserDao {
             Statement stmt = conn.createStatement();
 
             stmt.executeUpdate(dropTableSQL);
-            System.out.println("Таблица успешно удалена.");
+            logger.info("Таблица успешно удалена.");
 
         } catch (SQLException e) {
             logger.error("Ошибка при удалении таблицы:", e);
@@ -56,14 +53,14 @@ public class UserDaoJDBCImpl implements UserDao {
         String insertSQL = "INSERT INTO users (name, last_name, age) VALUES (?, ?, ?)";
 
         try (Connection conn = Util.connect()) {
-             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
+            PreparedStatement pstmt = conn.prepareStatement(insertSQL);
 
             pstmt.setString(1, name);
             pstmt.setString(2, lastName);
             pstmt.setByte(3, age);
             pstmt.executeUpdate();
 
-            System.out.println("Все пользователи добавлены.");
+            logger.info("Все пользователи добавлены.");
 
         } catch (SQLException e) {
             logger.error("Ошибка при вставке пользователей:");
@@ -88,8 +85,8 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql = "SELECT id, name, last_name, age FROM users";
 
         try (Connection conn = Util.connect()) {
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -111,10 +108,10 @@ public class UserDaoJDBCImpl implements UserDao {
         String clearTableSQL = "TRUNCATE TABLE users RESTART IDENTITY";
 
         try (Connection conn = Util.connect()) {
-             Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
             stmt.executeUpdate(clearTableSQL);
-            System.out.println("Таблица успешно очищена.");
+            logger.info("Таблица успешно очищена.");
 
         } catch (SQLException e) {
             logger.error("Ошибка при очистке таблицы:", e);
