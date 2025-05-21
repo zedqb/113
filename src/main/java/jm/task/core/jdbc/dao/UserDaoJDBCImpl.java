@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private static final Logger logger = LoggerFactory.getLogger(UserDaoJDBCImpl.class);
+    public static final Logger logger = LoggerFactory.getLogger(UserDaoJDBCImpl.class);
 
     public UserDaoJDBCImpl() {
     }
@@ -76,7 +76,7 @@ public class UserDaoJDBCImpl implements UserDao {
             pstmt.setInt(1, (int) id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Ошибка при удалении пользователя с id = {}", id, e);
         }
     }
 
@@ -98,7 +98,7 @@ public class UserDaoJDBCImpl implements UserDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Ошибка при получении пользователей из базы данных", e);
         }
 
         return users;
