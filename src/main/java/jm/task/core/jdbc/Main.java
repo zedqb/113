@@ -6,6 +6,7 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 import java.util.List;
+import static jm.task.core.jdbc.dao.UserDaoJDBCImpl.logger;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,15 +21,12 @@ public class Main {
 
         List<User> users = userService.getAllUsers();
 
-        for (User user : users) {
-            System.out.println(user);
-        }
+        users.forEach(user -> logger.info(user.toString()));
 
         userService.cleanUsersTable();
 
         userService.dropUsersTable();
     }
-
 }
 
 
