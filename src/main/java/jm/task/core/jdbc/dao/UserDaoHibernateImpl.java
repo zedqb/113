@@ -146,7 +146,7 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            logger.error("Ошибка при очистке таблицы", e);
+            logger.error("Ошибка при очистке таблицы,", e);
         }
     }
 }
